@@ -1,0 +1,28 @@
+// 檔案位置: styles/global.scss
+// 變數覆蓋用 (Variable overrides)
+// 全站配色 colors
+$primary: #013c64;
+$secondary: #ff9720;
+// $success: #7eb4e6;
+// $danger: #ff4136;
+
+// ↑↑↑  變數覆蓋(Variable overrides) 要寫在這行"上面"  ↑↑↑
+// 這裡導入所有 bootstrap 樣式
+// 最後營運階段(實務)可以用部份導入來進行最佳化
+// 參考: https://getbootstrap.com/docs/5.3/customize/sass/#importing
+@import '~bootstrap/scss/bootstrap';
+// ↓↓↓  其它客製樣式要寫在這行的"下面" ↓↓↓
+
+// bs5內建圖示字體
+// 如果有使用其它圖示字體可以註解不使用
+@import '~bootstrap-icons/font/bootstrap-icons';
+
+// google Inter, Noto Serif & TC 字體
+@import 'https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Serif+TC:wght@700&family=Noto+Serif:wght@700&display=swap';
+
+// fixed for __next root div
+#__next {
+  flex-direction: column;
+  height: 100%;
+  display: flex;
+}
