@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'
 import { useCouponHas } from '@/hooks/use-couponHasData'
 import usePagination from '@/hooks/use-pagination'
 import Pagination from '../pagination'
+import LoaderPing from '@/components/post/loaderPing'
 
 export default function Form() {
   const { couponHas, authID, setCouponHas } = useCouponHas()
@@ -21,6 +22,8 @@ export default function Form() {
     6
   )
   const [isSecondary, setIsSecondary] = useState(true)
+
+  const [isLoading, setIsLoading] = useState(true)
 
   const input = (e) => {
     e.preventDefault()
@@ -105,6 +108,12 @@ export default function Form() {
     setIsSecondary(validNum === 1)
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+  }, [])
+
   // 抓到資料後把資料設定進去coupon
   useEffect(() => {
     setCoupon(initCoupon)
@@ -177,53 +186,60 @@ export default function Form() {
                 </div>
               </div>
               <div className="mb-5">
-                <div
-                  className={`row g-3 position-relative ${styles['card-list']}`}
-                >
-                  {/* 之後改用map */}
-                  {pageItem.length <= 0 ? (
-                    <span
-                      className={`fs-4 my-5 ${styles.none}`}
-                      style={{ color: '#b4b4b4' }}
+                {isLoading ? (
+                  <LoaderPing />
+                ) : (
+                  <>
+                    <div
+                      className={`row g-3 position-relative ${styles['card-list']}`}
                     >
-                      尚無資料
-                    </span>
-                  ) : (
-                    pageItem.map((v) => {
-                      return (
-                        <div
-                          className={`col-12 col-md-6 ${styles.card}`}
-                          key={v.id}
+                      {/* 之後改用map */}
+                      {pageItem.length <= 0 ? (
+                        <span
+                          className={`fs-4 my-5 ${styles.none}`}
+                          style={{ color: '#b4b4b4' }}
                         >
-                          <div className=" d-flex border border-info rounded p-3 h-100">
+                          尚無資料
+                        </span>
+                      ) : (
+                        pageItem.map((v) => {
+                          return (
                             <div
-                              className={`rounded ${styles.avatar} flex-shrink-0 me-3`}
+                              className={`col-12 col-md-6 ${styles.card}`}
+                              key={v.id}
                             >
-                              <Image
-                                src="/images/coupons/turtle.jpg"
-                                alt="turtle"
-                                fill
-                              />
+                              <div className=" d-flex border border-info rounded p-3 h-100">
+                                <div
+                                  className={`rounded ${styles.avatar} flex-shrink-0 me-3`}
+                                >
+                                  <Image
+                                    src="/images/coupons/turtle.jpg"
+                                    alt="turtle"
+                                    fill
+                                  />
+                                </div>
+                                <div className="right flex-grow-1">
+                                  <h4 className="fs-6">{v.coupon_name}</h4>
+                                  <p className={`${styles.rule}`}>
+                                    {v.coupon_rule_content}
+                                  </p>
+                                </div>
+                              </div>
                             </div>
-                            <div className="right flex-grow-1">
-                              <h4 className="fs-6">{v.coupon_name}</h4>
-                              <p className={`${styles.rule}`}>
-                                {v.coupon_rule_content}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      )
-                    })
-                  )}
-                </div>
+                          )
+                        })
+                      )}
+                    </div>
+                    <div className="mt-5">
+                      <Pagination
+                        currentPage={currentPage}
+                        handlePage={handlePage}
+                        getPageNumbers={getPageNumbers}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
-              {/* 頁數按鈕 */}
-              <Pagination
-                currentPage={currentPage}
-                handlePage={handlePage}
-                getPageNumbers={getPageNumbers}
-              />
             </div>
           </div>
         </div>

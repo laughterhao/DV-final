@@ -73,12 +73,12 @@ router.post('/fav/:id', async (req, res) => {
 })
 
 // get fav
-router.get('/getfav/:id',async function (req, res, next) {
+router.post('/getfav/:id',async function (req, res, next) {
     (async () => {
         const Sid = req.params.id
-        const userState = req.query.fav
+        const userState = req.query.userState
         let [star] = await db
-        .execute('SELECT collect.state FROM collect WHERE collect.user_id = ? AND collect.lesson_id = ?', [userState, Sid])
+        .execute('INSERT INTO collect (user_id, lesson_id, state) VALUES (?, ?, 1);', [userState, Sid])
         .catch((err) => {
             console.error(err)
             return [undefined]

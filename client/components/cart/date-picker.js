@@ -68,7 +68,38 @@ export default function DatePicker({ getDate, perorder }) {
   }
 
   useEffect(() => {
-    localStorage.setItem('perorder', JSON.stringify(perorder))
+    // const getperoder = async () => {
+    //   try {
+    //     const lid = perorder.id
+    //     const response = await fetch(`${api}/orderdate`, {
+    //       method: 'POST', // 或者其他適當的 HTTP 方法，如 'PUT'
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify({
+    //         id: lid, // 將 perorder.id 包含在請求體中
+    //       }),
+    //     })
+    //     if (!response.ok) {
+    //       throw new Error(`HTTP error! status: ${response.status}`)
+    //     }
+    //     const data = await response.json()
+    //     const arrdate = data.map((v, i) => {
+    //       if (v.AM === 1 && v.PM === 1) {
+    //         return new Date(v.preorder_date).toLocaleDateString()
+    //       }
+    //     })
+    //     setBookedDates(arrdate)
+    //     return data
+    //   } catch (error) {
+    //     console.error(
+    //       `Failed to fetch data from ${api + '/' + 'orderdate'}: ${
+    //         error.message
+    //       }`
+    //     )
+    //     return null
+    //   }
+    // }
     getperoder()
     const daysInMonth = new Date(
       currentDate.getFullYear(),
@@ -85,12 +116,13 @@ export default function DatePicker({ getDate, perorder }) {
       ...leadingEmptyDays,
       ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
     ])
-  }, [currentDate])
+  }, [currentDate, perorder])
 
   function handleKeyDown(event) {
     if (event.key === 'Enter' || event.key === ' ') {
       // handleClick(event)
     }
+    console.log(selectedDate)
   }
   return (
     <>

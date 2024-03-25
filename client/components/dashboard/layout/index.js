@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import styles from './styles.module.scss'
 import Loading from '@/components/layout/loading/loading'
+import { useAuth } from '@/hooks/auth'
 
 export default function DashboardLayout({ children }) {
   const router = useRouter()
+  const { auth } = useAuth()
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
     }, 2000)
-  }, [router.isReady, router.pathname])
+  }, [router.isReady, router.pathname, auth])
   return (
     <>
       {loading ? (

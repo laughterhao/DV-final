@@ -31,17 +31,17 @@ export default function DetailTop({ selectData }) {
       })
         .then((response) => response.json())
         .then((data) => {
-          if (!data) {
+          console.log(data.state)
+          if (data.state === 0) {
+            console.log(newFav)
             // 如果資料不存在，進行新增的動作
-            return fetch(`${api}/addfav`, {
+            return fetch(`${api}/getfav/${pid}`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                pid: pid,
-                fav: newFav,
-                // 其他你需要新增的資料
+                userState: userState,
               }),
             })
           } else {
@@ -52,7 +52,7 @@ export default function DetailTop({ selectData }) {
         .catch((error) => {
           console.error('Error:', error)
         })
-      console.log(fav)
+      console.log(newFav)
       return newFav
     })
   }
