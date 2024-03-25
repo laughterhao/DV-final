@@ -13,7 +13,7 @@ export default function Form({ fav = {}, auth = {}, delUserFav = () => {} }) {
   // 控制分頁
   const { currentPage, pageItem, handlePage, getPageNumbers } = usePagination(
     fav,
-    10
+    5
   )
   const [isLoading, setIsLoading] = useState(true)
 
