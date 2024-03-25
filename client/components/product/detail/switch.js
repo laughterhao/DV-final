@@ -145,7 +145,7 @@ export default function Switch({
             onChange={handleSwitchToggle}
           />
           <label className="switch-label" for="switchID">
-            <span className="switch-txt" turnOn="評價" turnOff="細節"></span>
+            <span className="switch-txt" turnOn="細節" turnOff="評價"></span>
             <span className="switch-Round-btn"></span>
           </label>
         </div>
@@ -311,7 +311,7 @@ export default function Switch({
         .switch-txt::after {
           content: attr(turnOn);
           padding-left: 19px;
-          background: #265475;
+          background: #ff9720;
           color: #fff;
           text-align: left;
         }

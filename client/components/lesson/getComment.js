@@ -4,21 +4,17 @@ import { Row, Col } from 'react-bootstrap'
 import { GiRoundStar } from 'react-icons/gi'
 import Image from 'react-bootstrap/Image'
 import Style from '@/styles/lessonStyle/star.module.css'
-import { array } from 'prop-types'
 
 export default function GetComment({ selectData }) {
   const router = useRouter()
   const [star, setStar] = useState(null)
-  const lesson = selectData
   const pid = selectData.id
 
   //取得資料庫 star內容
   const getStar = async (pid) => {
     const res = await fetch(`http://localhost:3005/api/lesson/getstar/${pid}`)
     const data = await res.json()
-    const [starcomment] = data
     setStar(data)
-    console.log(data)
   }
   useEffect(() => {
     if (router.isReady && pid) {
@@ -29,7 +25,7 @@ export default function GetComment({ selectData }) {
     <>
       <Row>
         <Col lg={2}>
-          <select
+          {/* <select
             className="form-select form-select-sm"
             value={'ss'}
             onChange={() => {}}
@@ -39,7 +35,7 @@ export default function GetComment({ selectData }) {
             <option value="1">One</option>
             <option value="2">Two</option>
             <option value="3">Three</option>
-          </select>
+          </select> */}
         </Col>
       </Row>
       <div className="py-3">
@@ -52,7 +48,8 @@ export default function GetComment({ selectData }) {
                   <figure className="d-flex justify-content-center m-0 ">
                     <Image
                       className="img-fluid rounded-circle"
-                      src="https://fakeimg.pl/100x100/"
+                      style={{ height: '100px', width: '100px' }}
+                      src={`/images/users/unknow.jpg`}
                       alt=""
                     />
                   </figure>
@@ -66,7 +63,7 @@ export default function GetComment({ selectData }) {
                       return (
                         <button className={Style['star-btn']} key={i}>
                           <GiRoundStar
-                            className={i < v ? Style['on'] : Style['off']}
+                            className={i > v ? Style['on'] : Style['off']}
                           />
                         </button>
                       )

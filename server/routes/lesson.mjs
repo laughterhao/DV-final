@@ -76,7 +76,7 @@ router.post('/fav/:id', async (req, res) => {
 router.get('/getfav/:id',async function (req, res, next) {
     (async () => {
         const Sid = req.params.id
-        const userState = req.query.userState
+        const userState = req.query.fav
         let [star] = await db
         .execute('SELECT collect.state FROM collect WHERE collect.user_id = ? AND collect.lesson_id = ?', [userState, Sid])
         .catch((err) => {
@@ -98,10 +98,12 @@ router.get('/getfav/:id',async function (req, res, next) {
 });
 
 //get preoder_date
-router.get('/orderdate', async function (req, res, next) {
-  (async () => {
+router.post('/orderdate', async function (req, res, next) {
+  (async () => { 
     try {
-      let [date] = await db.execute('SELECT preorder_date FROM `order_time`')
+      const lesson_id = req.body.id
+      console.log(req.body.id)
+      let [date] = await db.execute("SELECT preorder_date, MAX(CASE WHEN preorder_time LIKE '%AM%' THEN 1 ELSE 0 END) as AM, MAX(CASE WHEN preorder_time LIKE '%PM%' THEN 1 ELSE 0 END) as PM FROM order_time WHERE lesson_id = ? GROUP BY preorder_date",[lesson_id])
       res.json(date)
     } catch (err) {
       console.error(err)
@@ -111,11 +113,11 @@ router.get('/orderdate', async function (req, res, next) {
 });
 
 router.post("/order-time", async function (req, res, next) {
-  const { lesson_id, order_time,time } = req.body;
+  const { lesson_id, order_time,timedetail } = req.body;
   try {
     const result = await db.execute(
       'INSERT INTO order_time (lesson_id, preorder_date, preorder_time) VALUES (?, ?, ?)',
-      [parseInt(lesson_id), order_time, time],
+      [parseInt(lesson_id), order_time, timedetail],
     );
     res.json(result);
   } catch (err) {
@@ -124,4 +126,17 @@ router.post("/order-time", async function (req, res, next) {
   }
 });
 
+router.get("/time", async function (req, res, next) {
+  // const { lesson_id, order_time,time } = req.body;
+  try {
+    const result = await db.execute(
+      "SELECT preorder_date,CASE WHEN SUM(preorder_time LIKE '%AM%') = 0 THEN 'AM' ELSE NULL END AS AM,CASE WHEN SUM(preorder_time LIKE '%PM%') = 0 THEN 'PM' ELSE NULL END AS PM FROM order_time GROUP BY preorder_date",
+      // [parseInt(lesson_id), order_time, time],
+    );
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 export default router

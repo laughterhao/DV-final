@@ -32,7 +32,7 @@ export default function NewsItem({
         } d-flex align-items-center  flex-shrink-0 ${
           isFocused ? styles.linkFocus : ''
         }`}
-        href={'/'}
+        href={`/event/${content.id}`}
         ref={itemRef}
         tabIndex={isFocused ? 0 : -1}
         onFocus={onFocus}

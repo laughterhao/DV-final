@@ -10,7 +10,16 @@ import Style from '@/styles/lessonStyle/lesson.module.scss'
 export default function List() {
   // 引入index state textcontent
   const { checkvalue } = useContext(DiffCheck)
-
+  // const imgSrc = common.map((item) => {
+  //   if (item.product_id) {
+  //     const template = `/images/product/images/${item.product_category}/${item.product_id}/${item.img}`
+  //     return template
+  //   } else {
+  //     const fileName = item.img.split(',', 1) + '.jpg'
+  //     const template = `/images/lesson/${fileName}`
+  //     return template
+  //   }
+  // })
   //checkbox 收尋設定
   const ArrLV = checkvalue.filter((item) => item !== false)
   //list 狀態
@@ -33,6 +42,7 @@ export default function List() {
   console.log(favState)
 
   const showSelectList = lesson.map((Stag) => {
+    console.log(Stag.img.split(',')[0])
     if (
       ArrLV.length === 0 ||
       ArrLV.indexOf(Stag.LV) !== -1 ||
@@ -43,12 +53,12 @@ export default function List() {
           <Row
             className={`m-2 g-0 shadow-sm rounded bg-white ${Style['bg-hover']}`}
           >
-            <Col lg={4} className={Style['hover-none']}>
-              <div className="h-100">
-                <Image
-                  className="img-fluid h-100 rounded-start"
-                  src="https://images.pexels.com/photos/19733182/pexels-photo-19733182.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                  alt=""
+            <Col lg={4} className={`rounded ${Style['hover-none']}`}>
+              <div className=" ratio ratio-4x3 h-100">
+                <img
+                  className="rounded img-fluid mx-auto d-block"
+                  src={`/images/lesson/${Stag.img.split(',')[0] + '.jpg'}`}
+                  alt="description"
                 />
               </div>
             </Col>

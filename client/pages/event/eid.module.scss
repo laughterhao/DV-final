@@ -2,6 +2,18 @@
 
 .eventPage {
   padding-inline: 160px;
+  line-height: 2em;
+}
+
+.tag {
+  border: 1px solid $info;
+  color: $info;
+  border-radius: 25px;
+  padding-inline: 12px;
+  margin-bottom: 4px;
+}
+.date {
+  color: $gray;
 }
 .banner {
   position: relative;

@@ -26,24 +26,17 @@ export default function EventArticle() {
         return response.json()
       })
       .then((result) => {
-        // const eventData = result.map((v) => {
-        //   // 設定時間的格式
-        //   const option = {
-        //     day: 'numeric',
-        //     month: 'short',
-        //     year: 'numeric',
-        //   }
-        //   return {
-        //     ...v,
-        //     created_at: v.created_at.toLocaleString('en-US', option),
-        //   }
-        // })
+        // 將字串轉為Date
+        const createAtDate = new Date(result.created_at)
+        console.log(createAtDate)
 
-        setEvent(result)
-        console.log(result)
+        const eventData = { ...result, created_at: createAtDate }
+
+        setEvent(eventData)
+        console.log(eventData)
       })
       .catch((error) => {
-        console.log('連線錯誤')
+        console.log('連線錯誤', error)
       })
   }
 
@@ -57,12 +50,29 @@ export default function EventArticle() {
     }
   }, [router.isReady])
 
+  // 設定時間的格式
+  const option = {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }
+  const formDate = event.created_at.toLocaleString('en-US', option)
+
   return (
     <>
-      <div className={`container my-5 ${styles.eventPage}`}>
-        <div className={`my-5 text-center`}>
-          <h2>{event.title}</h2>
-          <div></div>
+      <div className={`container py-5 ${styles.eventPage}`}>
+        <div className={`my-5 d-flex justify-content-between align-items-top`}>
+          <div className=" d-flex flex-column align-items-start ">
+            <h2 className="mb-3">{event.title}</h2>
+            <div className={`${styles.tag}`}>
+              <p className={`m-0`}>{event.sort}</p>
+            </div>
+          </div>
+
+          <div className={`d-flex justify-content-center ${styles.date}`}>
+            <i className="bi bi-calendar me-2"></i>
+            <p>{formDate}</p>
+          </div>
         </div>
         <div className={`${styles.banner}`}>
           <Image
@@ -74,7 +84,7 @@ export default function EventArticle() {
           ></Image>
         </div>
 
-        <article className={`container my-5`}>
+        <article className={`container my-5 `}>
           <div>
             <p>{event.content}</p>
           </div>

@@ -13,14 +13,16 @@ router.post('/send', update.none(), async (req, res, next) => {
   const [[userData]] = await db.execute(
     'SELECT * FROM `users` WHERE `email` = ?', [userEmail]
   )
+  const randomNumber = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
   if (userData) {
     // email內容
     const mailOptions = {
-      from: `"support"<${process.env.SMTP_TO_EMAIL}>`,
+      from: `"DiVING"<${process.env.SMTP_TO_EMAIL}>`,
       to: userData.email,
-      subject: '這是一封測試電子郵件',
-      text: `你好， \r\n通知你有關第一封郵件的事。\r\n\r\n敬上\r\n開發團隊`,
+      subject: 'DiVING團隊 - 忘記密碼認證信',
+      text: `你好， \r\n以下為你的驗證碼，請妥善保管。\r\n${randomNumber}\r\n\r\nDiVING開發團隊\r\n敬上`,
     }
+
     // 寄送
     transporter.sendMail(mailOptions, (err, response) => {
       if (err) {
@@ -28,7 +30,7 @@ router.post('/send', update.none(), async (req, res, next) => {
         return res.status(400).json({ status: 'error', msg: err })
       } else {
         // 成功回覆的json
-        return res.json({ status: 'success', data: null })
+        return res.json({ status: 'success', data: randomNumber })
       }
     })
   } else {
