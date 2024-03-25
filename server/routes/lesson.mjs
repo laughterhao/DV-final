@@ -55,7 +55,7 @@ router.get('/getstar/:id', async function (req, res, next) {
   })()
 })
 
-router.post('/fav/:id', async (req, res) => {
+router.get('/fav/:id', async (req, res) => {
   const newFav = req.body.fav
   const id = req.params.id
   try {
