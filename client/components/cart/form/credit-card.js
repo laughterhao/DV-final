@@ -152,6 +152,12 @@ export default function CreditCard({
         p {
           margin: 0;
         }
+
+        @media (max-width: 576px) {
+          p {
+            font-size: 14px;
+          }
+        }
       `}</style>
       <AutoTab className="autotab-4" maxLength={4} />
     </>

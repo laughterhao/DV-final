@@ -122,19 +122,19 @@ export default function Order({ orderId }) {
           })}
         <hr />
         <div className={`row ${styles.row}`}>
-          <div className="col-10"></div>
+          <div className="col-sm-7 col-10"></div>
           <p className="col fw-bold">運費</p>
           <p className="col fw-bold text-end">NT$ {cart.deliveryFee}</p>
         </div>
         {coupon && (
           <div className={`row ${styles.row}`}>
-            <div className="col-10"></div>
+            <div className="col-sm-7 col-10"></div>
             <p className="col fw-bold">優惠</p>
             <p className="col fw-bold text-end">-NT$ {coupon.discount}</p>
           </div>
         )}
         <div className={`row ${styles.row}`}>
-          <div className="col-10"></div>
+          <div className="col-sm-7 col-10"></div>
           <p className="col fw-bold">合計</p>
           <p className="col fw-bold text-end">
             NT$ {order && order.total_price}
