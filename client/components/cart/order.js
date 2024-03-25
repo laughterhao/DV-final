@@ -84,13 +84,15 @@ export default function Order({ orderId }) {
       }
     }
 
-    fetchOrderDetail()
-    fetchOrder()
-    addOrderTime()
-    couponUsed()
-    clearCart()
-    removeUsingCoupon()
-  }, [])
+    if (auth.id) {
+      fetchOrderDetail()
+      fetchOrder()
+      addOrderTime()
+      couponUsed()
+      clearCart()
+      removeUsingCoupon()
+    }
+  }, [auth.id])
 
   return (
     <div className="container">
