@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './styles.module.scss'
 import { useRouter } from 'next/router'
+import LoaderPing from '@/components/post/loaderPing'
+import Loading from '@/components/dashboard/layout/loading'
 
 export default function Forget() {
   const [errorMsg, setMsg] = useState('')
   const [otpCode, setOtpCode] = useState('')
   const [email, setEmail] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -39,9 +42,17 @@ export default function Forget() {
     if (otpCode === otp) {
       router.push('/users/new-password')
     } else {
-      setMsg('驗證碼錯誤，請在試一次')
+      setMsg('驗證碼錯誤，請再試一次')
     }
   }
+
+  const handleLoading = () => {
+    setIsLoading(true)
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 3000)
+  }
+
   return (
     <>
       <main className={`${styles['main-style']}`}>
@@ -67,8 +78,9 @@ export default function Forget() {
               <button
                 className={`small fw-medium ${styles.btn} ms-auto`}
                 style={{ width: '100px' }}
+                onClick={handleLoading}
               >
-                取得驗證碼
+                {isLoading ? <Loading /> : '取得驗證碼'}
               </button>
             </form>
             <form onSubmit={handleSubmitOTP}>

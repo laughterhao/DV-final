@@ -105,9 +105,12 @@ export default function Profile() {
       .then((result) => {
         const { status, msg } = result
         if (result.status === 'success') {
+          console.log(result)
           notify(msg, status)
           logout()
           router.push('/')
+        } else {
+          notify(msg, status)
         }
       })
       .catch((err) => console.log(err.msg))
