@@ -62,12 +62,13 @@ export default function Cart() {
                 discount_price,
                 product_detail,
                 order_time,
+                timedetail,
                 category,
                 pimg,
                 limg,
               } = item
               const id = product_id || lesson_id
-              const detail = product_detail || order_time
+              const detail = product_detail || order_time + ' ' + timedetail
               const img = pimg || limg
               const isProduct = !!item.product_id
               const totalPrice = discount_price

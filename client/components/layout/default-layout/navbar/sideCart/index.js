@@ -47,6 +47,7 @@ export default function SideCart() {
                 discount_price,
                 product_detail,
                 order_time,
+                timedetail,
                 product_id,
                 lesson_id,
                 pimg,
@@ -55,7 +56,7 @@ export default function SideCart() {
               } = item
               const img = pimg || limg
               const id = product_id || lesson_id
-              const detail = product_detail || order_time
+              const detail = product_detail || order_time + ' ' + timedetail
               return (
                 <MyProduct
                   key={i}

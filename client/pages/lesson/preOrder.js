@@ -18,7 +18,7 @@ export default function PreOrder() {
   const [count, setCount] = useState(1)
   const [ambtn, setAmBtn] = useState(false)
   const [pmbtn, setPmBtn] = useState(false)
-  const [timedetail, setTimeDetail] = useState('') //選擇時段的值
+  const [timedetail, setTimeDetail] = useState('AM09:00') //選擇時段的值
 
   const clickAM = () => {
     const txt = 'AM09:00'
@@ -89,8 +89,12 @@ export default function PreOrder() {
       num: count,
       limg,
     }
-    addItem(item)
-    toast.success('已加入購物車')
+    if (timedetail) {
+      addItem(item)
+      toast.success('已加入購物車')
+    } else {
+      toast.error('尚未選擇時段')
+    }
   }
   return (
     <>
