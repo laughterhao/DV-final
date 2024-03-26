@@ -22,7 +22,7 @@ export default function DashboardLayout({ children }) {
           <main className="my-3 my-sm-5">
             <div className="container-xl">
               <div
-                className={`row justify-content-center m-auto position-relative ${styles['user-container']}`}
+                className={`row gx-3 justify-content-center ${styles['user-container']}`}
               >
                 {/* 這裡放管理中心component */}
                 {children}
