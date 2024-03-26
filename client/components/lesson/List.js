@@ -8,38 +8,31 @@ import { FaLocationDot } from 'react-icons/fa6'
 import Style from '@/styles/lessonStyle/lesson.module.scss'
 
 export default function List() {
+  const api = 'http://localhost:3005/api/lesson'
   // 引入index state textcontent
   const { checkvalue } = useContext(DiffCheck)
-  // const imgSrc = common.map((item) => {
-  //   if (item.product_id) {
-  //     const template = `/images/product/images/${item.product_category}/${item.product_id}/${item.img}`
-  //     return template
-  //   } else {
-  //     const fileName = item.img.split(',', 1) + '.jpg'
-  //     const template = `/images/lesson/${fileName}`
-  //     return template
-  //   }
-  // })
   //checkbox 收尋設定
   const ArrLV = checkvalue.filter((item) => item !== false)
   //list 狀態
   const [lesson, setLesson] = useState([])
 
   const getlessonList = async () => {
-    const res = await fetch('http://localhost:3005/api/lesson/getlist')
-
-    const data = await res.json()
-    setLesson(data)
+    await fetch(`${api}/getlist`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        return response.json()
+      })
+      .then((data) => setLesson(data))
+      .catch((error) => {
+        console.error('Error:', error)
+      })
   }
 
   useEffect(() => {
     getlessonList()
   }, [])
-  //fav state setting
-  const favState = lesson.map((v, i) => {
-    return { ...v, favState: false }
-  })
-  console.log(favState)
 
   const showSelectList = lesson.map((Stag) => {
     console.log(Stag.img.split(',')[0])
@@ -55,7 +48,7 @@ export default function List() {
           >
             <Col lg={4} className={`rounded ${Style['hover-none']}`}>
               <div className=" ratio ratio-4x3 h-100">
-                <img
+                <Image
                   className="rounded img-fluid mx-auto d-block"
                   src={`/images/lesson/${Stag.img.split(',')[0] + '.jpg'}`}
                   alt="description"
