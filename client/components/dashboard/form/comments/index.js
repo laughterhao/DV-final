@@ -55,7 +55,7 @@ export default function Form({ common = [] }) {
                   <table className="table mb-5">
                     <thead className="fs-6">
                       <tr>
-                        <th scope="col">圖片</th>
+                        <th scope="col"></th>
                         <th scope="col">名稱</th>
                         <th scope="col">評價</th>
                         <th scope="col">內容</th>

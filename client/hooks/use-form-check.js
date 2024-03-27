@@ -56,8 +56,8 @@ export default function useFormCheck() {
       case userProfile.name.trim() === '':
         setMsg({ ...errorMsg, nameErr: errText.empty })
         break
-      case nameRegex.test(userProfile.name.trim()):
-        setMsg({ ...errorMsg, nameErr: errText.syntax })
+      case userProfile.email.trim() === '':
+        setMsg({ ...errorMsg, emailErr: errText.empty })
         break
       default:
         return true

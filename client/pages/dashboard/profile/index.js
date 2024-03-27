@@ -78,6 +78,7 @@ export default function Profile() {
   // Update Profile（不含密碼）
   const handleUpdateProfile = (e) => {
     e.preventDefault()
+    setMsg('')
     // 表單驗證
     const formStatus = handleProfileCheck()
     if (formStatus) {

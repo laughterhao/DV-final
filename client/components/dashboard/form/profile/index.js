@@ -75,9 +75,14 @@ export default function Form({
                       </div>
                       {/* 改的話要再註冊驗證一次 */}
                       <div className="col-12 col-sm-6">
-                        <label htmlFor="myEmail" className="form-label">
-                          <span style={{ color: 'red' }}>*</span> 電子郵件
-                        </label>
+                        <div className="d-flex justify-content-between">
+                          <label htmlFor="myEmail" className="form-label">
+                            <span style={{ color: 'red' }}>*</span> 電子郵件
+                          </label>
+                          <span className="form-text text-danger pe-1 m-0">
+                            {errorMsg.emailErr !== '' && errorMsg.emailErr}
+                          </span>
+                        </div>
                         <input
                           type="email"
                           id="myEmail"
@@ -167,7 +172,6 @@ export default function Form({
                                 舊密碼
                               </label>
                               {/* 警示訊息 */}
-                              {/* 還是改成紅色border + 叉叉icon？ */}
                               <span className="form-text text-danger pe-1 m-0">
                                 {errorMsg.originErr !== '' &&
                                   errorMsg.originErr}

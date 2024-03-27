@@ -5,6 +5,8 @@ import Image from 'next/image'
 import usePagination from '@/hooks/use-pagination'
 import Pagination from '../pagination'
 import LoaderPing from '@/components/post/loaderPing'
+import Button from 'react-bootstrap/Button'
+import Card from 'react-bootstrap/Card'
 
 // React icon
 import { FaTrashCan } from 'react-icons/fa6'
@@ -46,10 +48,69 @@ export default function Form({ fav = {}, auth = {}, delUserFav = () => {} }) {
                 <LoaderPing />
               ) : (
                 <>
-                  <table className="table mb-5">
+                  {pageItem.length <= 0 ? (
+                    <div
+                      className={`fs-4 position-absolute end-50 mt-4 ms-4`}
+                      style={{ color: '#b4b4b4' }}
+                    >
+                      尚無資料
+                    </div>
+                  ) : (
+                    <div className="row g-3 mb-4">
+                      {pageItem.map((item, index) => {
+                        return (
+                          <div className="col-4" key={item.id}>
+                            <Card style={{ height: '20rem' }}>
+                              <Link
+                                style={{
+                                  position: 'relative',
+                                  width: '100%',
+                                  height: '100%',
+                                  overflow: 'hidden',
+                                }}
+                                href={
+                                  item.product_id !== null
+                                    ? `http://localhost:3000/product/${item.product_id}`
+                                    : `http://localhost:3000/lesson/${item.lesson_id}`
+                                }
+                                className="btn btn-sm text-white p-0"
+                              >
+                                <Card.Img
+                                  variant="top"
+                                  src={imgSrc[index]}
+                                  style={{ height: '200px' }}
+                                />
+                              </Link>
+                              <Card.Body className="pb-0">
+                                <Card.Text className="text-center">
+                                  {item.name}
+                                </Card.Text>
+                                <Card.Text className="text-center">
+                                  {`NT$ ${item.price}`}
+                                </Card.Text>
+                                <div className="text-center border-top">
+                                  <button
+                                    type="button"
+                                    className="btn text-danger"
+                                    onClick={() => {
+                                      delUserFav(auth.id, item.id)
+                                    }}
+                                  >
+                                    取消收藏
+                                  </button>
+                                </div>
+                              </Card.Body>
+                            </Card>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+
+                  <table className="table mb-5 d-none">
                     <thead className="fs-6">
                       <tr>
-                        <th scope="col">圖片</th>
+                        <th scope="col"></th>
                         <th scope="col">名稱</th>
                         <th scope="col">價格</th>
                         <th scope="col">查看</th>
