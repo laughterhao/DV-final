@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 import ImgSlider from './ImgSlider'
 import { Row, Col } from 'react-bootstrap'
 import { FaHeart } from 'react-icons/fa'
@@ -10,82 +11,90 @@ import { useAuth } from '@/hooks/auth'
 
 export default function DetailTop({ selectData }) {
   const [slider, setSlider] = useState({})
+  const [star, setStar] = useState({})
+  const [fav, setFav] = useState(0)
+
+  const lesson = selectData
+  const router = useRouter()
   const { auth } = useAuth()
   // 取得uesr 狀態
   const userState = auth.id
   const pid = selectData.id
   const api = `http://localhost:3005/api/lesson`
   //---get fav API
-  const [fav, setFav] = useState(0)
-  function changeFav() {
-    setFav((prevFav) => {
-      const newFav = prevFav === 0 ? 1 : 0
-      // 呼叫資料庫 API
-      fetch(`${api}/fav/${pid}`, {
-        // 注意這裡的 API 網址可能需要根據你的後端服務來修改
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ fav: newFav }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data.state)
-          if (data.state === 0) {
-            console.log(newFav)
-            // 如果資料不存在，進行新增的動作
-            return fetch(`${api}/getfav/${pid}`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                userState: userState,
-              }),
-            })
-          } else {
-            // 如果資料存在，直接設定 state
-            setFav(data)
-          }
+  const changeFav = async () => {
+    if (!auth.id) {
+      return router.push('/users/login')
+    }
+    try {
+      const checkResponse = await fetch(
+        `${api}/fav/${pid}?userState=${userState}`
+      )
+      const [exists] = await checkResponse.json()
+      if (exists) {
+        let newFav = exists.state === 0 ? 1 : 0
+        const response = await fetch(`${api}/upFav/${pid}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userState: userState,
+            fav: newFav,
+          }),
         })
-        .catch((error) => {
-          console.error('Error:', error)
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        setFav(newFav)
+      } else {
+        const response = await fetch(`${api}/postfav/${pid}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userState: userState,
+          }),
         })
-      console.log(newFav)
-      return newFav
-    })
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        setFav(1)
+      }
+      getFav(pid)
+    } catch (error) {
+      console.error('Error:', error)
+    }
   }
-  function getFav() {
-    fetch(`${api}/getfav/${pid}?userState=${userState}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+  const getFav = async (pid) => {
+    await fetch(`${api}/fav/${pid}?userState=${userState}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
         return response.json()
       })
-      .then((data) => setFav(data))
+      .then(([data]) => {
+        setFav(data.state)
+      })
       .catch((error) => {
         console.error('Error:', error)
       })
   }
-
-  const router = useRouter()
-  const [star, setStar] = useState({})
-  const lesson = selectData
-
   //取得資料庫 star內容
   const getStar = async (pid) => {
-    const res = await fetch(`${api}/getstar/${pid}`)
-
-    const data = await res.json()
-    const [starcomment] = data
-    setStar(starcomment)
+    await fetch(`${api}/getstar/${pid}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        return response.json()
+      })
+      .then((data) => setStar(data))
+      .catch((error) => {
+        console.error('Error:', error)
+      })
   }
   // 取課程 星星平均值
   const Starlist = () => {
@@ -121,19 +130,20 @@ export default function DetailTop({ selectData }) {
   const goToPreOrder = () => {
     router.push({
       pathname: '/lesson/preOrder',
-      query: { lessonId: pid }, // 這裡可以放你想要傳遞的查詢參數
+      query: { lessonId: pid },
     })
   }
+
   useEffect(() => {
     if (router.isReady && pid) {
       getStar(pid)
-      getFav(pid)
     }
-    console.log()
-  }, [router.isReady, pid, fav])
+  }, [router.isReady, auth, pid])
   useEffect(() => {
     setSlider(pid)
+    getFav(pid)
   }, [pid])
+
   return (
     <>
       <Row>
@@ -186,7 +196,7 @@ export default function DetailTop({ selectData }) {
               className={`d-grid gap-2 col-12 mx-auto mt-4 ${derailTopStyle['phone-mt']}`}
             >
               <button
-                className={`btn ${derailTopStyle['btn-color']} fs-5 fw-bold`}
+                className={`btn ${derailTopStyle['btn-color']} fs-5 `}
                 type="button"
                 onClick={goToPreOrder}
               >
