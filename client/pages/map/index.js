@@ -5,9 +5,10 @@ import { FaWind, FaTemperatureHigh } from 'react-icons/fa'
 import { LuWaves } from 'react-icons/lu'
 import { GiWindsock } from 'react-icons/gi'
 import ImageViewModal from '@/components/map/imageViewModal'
-import styles from './svg.module.scss'
+import styles from './map.module.scss'
 import TaiwanSvg from '@/components/map/taiwanSvg'
 import Loading from '@/components/layout/loading/loading'
+import GoToTop from '@/components/common/goToTop'
 
 // const AUTHORIZATION_KEY = process.env.AUTHORIZATION_KEY
 const AUTHORIZATION_KEY = 'CWA-12A9C569-394E-4169-AD84-A7592FBBEAF1'
@@ -198,9 +199,9 @@ export default function Index() {
             fullscreen={'md-up'}
           />
           {/* Modal↑ */}
-          <Container className="my-3 p-3 border rounded ">
+          <Container className="my-3 p-3 ">
             <Row>
-              <Col xs={12} md={12} lg={6} className="border-end">
+              <Col xs={12} md={12} lg={6}>
                 <div className={styles['box']}>
                   <TaiwanSvg
                     handleMapClick={handleMapClick}
@@ -211,10 +212,9 @@ export default function Index() {
               <Col xs={12} md={12} lg={6} className={styles['weather']}>
                 <h2>{selectedDisName}</h2>
                 <h4>{currentWeather.StationName}</h4>
-                <div>
-                  {/* 時間 */}觀測時間: {currentWeather.DateTime}
-                </div>
-
+                {/* <div>
+                  時間 觀測時間: {currentWeather.DateTime}
+                </div>*/}
                 <div className={styles['weather-list']}>
                   <ul>
                     <li>
@@ -328,6 +328,7 @@ export default function Index() {
                 </div>
               </Stack>
             </Container>
+            <GoToTop backgroundColor={'#e9e9e968'} />
           </Container>
         </main>
       )}

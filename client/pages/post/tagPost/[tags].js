@@ -47,13 +47,13 @@ export default function TagPost() {
 
   const display = (
     <div>
-      <Container className="mt-3">
-        <div className={'btn-back'}>
+      <Container className="mt-4">
+        <div className="mb-4">
           <Link href="/post">
             <BackButton />
           </Link>
         </div>
-        <div className="mb-3">
+        <div className="mb-4">
           <h3>標籤 包含: {tag} 的文章</h3>
         </div>
 
@@ -66,9 +66,6 @@ export default function TagPost() {
         )}
       </Container>
       <style jsx>{`
-        .btn-back {
-          margin: 0 0 30px -80px;
-        }
         .not-found {
           display: flex;
           justify-content: center;

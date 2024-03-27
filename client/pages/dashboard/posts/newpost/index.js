@@ -79,7 +79,7 @@ export default function Index() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // 检查表单字段是否有未填写的
+    // 檢查表單字段是否有未填寫的
     const { title, content, images } = postFormData
     if (!title || !content || !images) {
       Swal.fire({
@@ -87,7 +87,7 @@ export default function Index() {
         icon: 'warning',
         text: '請確保所有欄位都已填寫',
       })
-      return // 防止继续执行表单提交
+      return // 防止繼續執行
     }
 
     const formData = new FormData()
@@ -96,7 +96,7 @@ export default function Index() {
     formData.append('content', postFormData.content)
     formData.append('tags', postFormData.tags)
     formData.append('images', selectedFile) //將文件添加到 FormData中
-    console.log([...formData])
+    // console.log([...formData])
     try {
       const res = await fetch('http://localhost:3005/api/post/new', {
         method: 'POST',
@@ -106,28 +106,11 @@ export default function Index() {
       //成功的話跳alert
       if (res.status === 201) {
         Swal.fire({
+          position: 'center',
+          icon: 'success',
           title: '新增成功',
-          showClass: {
-            popup: `
-              animate__animated
-              animate__fadeInUp
-              animate__faster
-            `,
-          },
-          hideClass: {
-            popup: `
-              animate__animated
-              animate__fadeOutDown
-              animate__faster
-            `,
-          },
-          backdrop: `
-          rgba(0,0,123,0.4)
-          url("/images/post/swimmingdog.gif")
-          top
-          no-repeat
-        `,
           showConfirmButton: false,
+          timer: 1500,
         })
         //跳轉
         router.push('/dashboard/posts')
@@ -146,14 +129,14 @@ export default function Index() {
           <InputGroup.Text>文章標題</InputGroup.Text>
           <Form.Control
             onChange={(e) => handleFormDataChange('title')(e.target.value)}
-            placeholder="請輸入標題"
+            placeholder="請輸入標題(必填)"
             required
           />
         </InputGroup>
         <div>
           <label htmlFor="file" className={postStyle['myLabel']}>
             {' '}
-            <span>檔案上傳</span>
+            <span>文章首圖上傳</span>
             <BiImageAdd className={postStyle['icon']} />
             <input
               style={{ display: 'none' }}
@@ -204,8 +187,8 @@ export default function Index() {
               text={'您的更改將不會保存。'}
               icon={'warning'}
               showCancelButton={true}
-              confirmButtonColor={'#3085d6'}
-              cancelButtonColor={'#d33'}
+              confirmButtonColor={'#013c64'}
+              cancelButtonColor={'#ea4343'}
               href={'/dashboard/posts'}
             />
             <DiButton type={'submit'} text={'送出'} color={'#013c64'} />{' '}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from '../styles.module.scss'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
@@ -9,7 +9,6 @@ import { MdOutlineLibraryAdd } from 'react-icons/md'
 
 import usePagination from '@/hooks/use-pagination'
 import Pagination from '../pagination'
-import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 
 import LoaderPing from '@/components/post/loaderPing'
@@ -64,6 +63,8 @@ export default function Index() {
       confirmButtonText: '是的，刪除它！',
       cancelButtonText: '取消',
       reverseButtons: true,
+      confirmButtonColor: '#013c64',
+      cancelButtonColor: '#ea4343',
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
@@ -81,32 +82,16 @@ export default function Index() {
           //成功的話跳alert
           if (res.status === 200) {
             Swal.fire({
+              position: 'center',
+              icon: 'success',
               title: '刪除成功',
-              showClass: {
-                popup: `
-              animate__animated
-              animate__fadeInUp
-              animate__faster
-            `,
-              },
-              hideClass: {
-                popup: `
-              animate__animated
-              animate__fadeOutDown
-              animate__faster
-            `,
-              },
-              backdrop: `
-          rgba(0,0,123,0.4)
-          url("/images/post/swimmingdog.gif")
-          top
-          no-repeat
-        `,
               showConfirmButton: false,
+              timer: 500,
+            }).then(() => {
+              //跳轉
+              // router.push('/dashboard/posts')
+              window.location.reload()
             })
-            //跳轉
-            // router.push('/dashboard/posts')
-            window.location.reload()
           } else {
             console.error('Failed to disable post')
           }

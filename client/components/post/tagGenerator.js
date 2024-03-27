@@ -42,7 +42,7 @@ export default function TagGenerator({ onTagsChange, initialTags }) {
       <InputGroup className="my-2">
         <InputGroup.Text>標籤</InputGroup.Text>
         <Form.Control
-          placeholder="新增標籤... "
+          placeholder="新增標籤... (選填)"
           type="text"
           value={newTag}
           onChange={(e) => setNewTag(e.target.value)}

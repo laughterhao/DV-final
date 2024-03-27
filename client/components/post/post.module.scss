@@ -2,12 +2,10 @@
 .carousel {
   height: 300px; /* 修改為你想要的高度值 */
 }
-
 .carousel-item {
   height: 300px;
   overflow: hidden;
 }
-
 .carousel-item img {
   width: 100%;
   height: 100%;
@@ -15,16 +13,19 @@
 }
 
 // post卡片
-
 .card {
-  padding: 10px;
-  overflow: hidden;
+  position: relative;
+  border-radius: 16px;
+  box-shadow: none;
+  background: #fff;
+  // transform-origin: center;
+  // transition: all 0.4s ease-in-out;
   backface-visibility: hidden;
+  overflow: hidden;
   transform: perspective(25em);
   background: #fff content-box;
-  filter: drop-shadow(2px 2px 6px);
+  box-shadow: (2px 1px 10px #26547538);
   animation: card 2s ease-out backwards;
-  color: var();
 }
 
 @keyframes card {
@@ -33,32 +34,52 @@
   }
 }
 
-// 按鈕
+.card-action svg {
+  aspect-ratio: 1;
+  width: 50%;
+}
+
+.card-action {
+  --size: clamp(300px, 100vmin, 60px);
+  position: absolute;
+  aspect-ratio: 1;
+  width: calc(var(--size) * 0.15);
+  bottom: 65%;
+  right: 1.5rem;
+  transform: translateX(50%) translateX(calc((var(--size) * 0.4)))
+    translateX(calc(var(--hover, 0) * (var(--size) * -0.45)));
+  display: grid;
+  place-items: center;
+  border-radius: 0.5rem;
+  background: hsl(0 0% 100% / 0.5);
+  transition: transform 0.2s;
+}
+
+.card:is(:hover, :focus-visible) {
+  --hover: 1;
+}
+
+// 圖片上傳按鈕
 .myLabel {
   font-size: 18px;
   position: relative;
-  width: 120px;
-  height: 36px;
+  width: 170px;
+  height: 42px;
   border: 2px solid #efbb00;
   border-radius: 6px;
   overflow: hidden;
   background: #ff9720;
-  padding: 5px;
+  padding: 2px;
+  justify-content: space-around;
   align-items: center;
   display: flex;
-}
-.myLabel .icon {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 30px;
-  height: 30px;
-  background-color: #3a3434;
-  font-size: 20px;
-  color: #f0bc00;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
   cursor: pointer;
+
+  .icon {
+    width: 30px;
+    height: 30px;
+    background-color: #3a3434;
+    color: #f0bc00;
+    border-radius: 6px;
+  }
 }

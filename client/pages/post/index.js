@@ -13,6 +13,7 @@ import {
 import styles from '@/components/post/post.module.scss'
 import PostCard from '@/components/post/postCard'
 import Loading from '@/components/layout/loading/loading'
+import GoToTop from '@/components/common/goToTop'
 
 export default function List() {
   const [postList, setPostList] = useState([])
@@ -138,6 +139,7 @@ export default function List() {
           </div>
 
           <PostCard postList={postList} handleTagClick={handleTagClick} />
+          <GoToTop backgroundColor={'#e9e9e968'} />
         </Container>
       )}
     </>
