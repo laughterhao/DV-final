@@ -84,17 +84,24 @@ export default function DetailTop({ selectData }) {
   }
   //取得資料庫 star內容
   const getStar = async (pid) => {
-    await fetch(`${api}/getstar/${pid}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok')
-        }
-        return response.json()
-      })
-      .then((data) => setStar(data))
-      .catch((error) => {
-        console.error('Error:', error)
-      })
+    const res = await fetch(`${api}/getstar/${pid}`)
+
+    const data = await res.json()
+    const [starcomment] = data
+    setStar(starcomment)
+    // await fetch(`${api}/getstar/${pid}`)
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       throw new Error('Network response was not ok')
+    //     }
+    //     return response.json()
+    //   })
+    //   .then((data) => {
+    //     console.log(data);
+    //     setStar(data)})
+    //   .catch((error) => {
+    //     console.error('Error:', error)
+    //   })
   }
   // 取課程 星星平均值
   const Starlist = () => {

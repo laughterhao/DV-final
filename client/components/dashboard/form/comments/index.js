@@ -13,7 +13,7 @@ export default function Form({ common = [] }) {
   // 控制分頁
   const { currentPage, pageItem, handlePage, getPageNumbers } = usePagination(
     common,
-    6
+    5
   )
   const [isLoading, setIsLoading] = useState(true)
 
