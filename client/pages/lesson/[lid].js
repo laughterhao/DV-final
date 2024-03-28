@@ -35,7 +35,7 @@ export default function Detail() {
     locationDetail: '',
   })
   // ---使用switch---
-  const [isChecked, setIsChecked] = useState(false)
+  const [isChecked, setIsChecked] = useState(true)
   const toggleSwitch = () => {
     setIsChecked(!isChecked)
   }

@@ -95,7 +95,7 @@ router.post('/status', checkToken, async (req, res) => {
       msg: '使用者已登入',
       token
     })
-  } else if(userData && !isGoogle) {
+  } else if (userData && !isGoogle) {
     let token = jwt.sign({
       id: userData.uid,
       userEmail: userData.email,
@@ -130,7 +130,7 @@ router.post('/register', upload.none(), async (req, res) => {
     })
     return false
   }
-  
+
   const uid = uuidv4()
   await db.execute(
     "INSERT INTO `users` (`email`, `password`, `name`, `uid`) VALUES (?, ?, ?, ?);", [userEmail, userPWD, userName, uid]
@@ -269,24 +269,33 @@ router.put('/:id/password', checkToken, upload.none(), async (req, res) => {
     return res.status(401).json({ status: 'error', msg: '無法更新會員資料' })
   }
   const { origin, newPWD, id } = req.body
+  console.log(req.body);
 
   // 檢查必填欄位是否有空字串
   if (!id || !newPWD) {
     return res.json({ status: 'error', msg: '缺少必要資料' })
   }
 
-  await db.execute(
-    'UPDATE `users` SET `password` = ? WHERE `uid` = ? AND `password` = ?',
-    [newPWD, id, origin]
+  const [[userData]] = await db.execute(
+    'SELECT * FROM users WHERE `uid` = ? AND `password` = ?',
+    [id, origin]
   )
-    .then(result => {
-      console.log(result)
-      res.status(200).json({ status: 'success', msg: '密碼更新成功，請重新登入' })
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(400).json({ status: 'error', msg: '查無使用者，會員資料更新失敗' })
-    })
+
+  if (userData) {
+    await db.execute(
+      'UPDATE `users` SET `password` = ? WHERE `uid` = ? AND `password` = ?',
+      [newPWD, id, origin]
+    )
+      .then(result => {
+        console.log(result)
+        res.status(200).json({ status: 'success', msg: '密碼更新成功，請重新登入' })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  } else {
+    res.status(400).json({ status: 'error', msg: '舊密碼錯誤，請重新輸入' })
+  }
 })
 
 // 讀取訂單
@@ -332,7 +341,7 @@ router.get('/:id/common', checkToken, async (req, res) => {
   console.log(userData)
 
   const data = formatDate(userData)
-  
+
   if (userData) {
     res.status(200).json({ status: 'success', data })
   } else {
@@ -356,7 +365,7 @@ router.get('/:id/favorite', checkToken, async (req, res) => {
 
   const data = formatDate(userData)
 
-  
+
   if (userData) {
     res.status(200).json({ status: 'success', data })
   } else {
@@ -365,8 +374,8 @@ router.get('/:id/favorite', checkToken, async (req, res) => {
 })
 
 // 刪除收藏
-router.delete('/:id/delete-fav:pid', checkToken, async(req,res) => {
-  const {id, pid} = req.params
+router.delete('/:id/delete-fav:pid', checkToken, async (req, res) => {
+  const { id, pid } = req.params
   const checkId = req.decode.id
 
   // 確認授權會員與請求取得的會員資料是否為同一人
@@ -380,7 +389,7 @@ router.delete('/:id/delete-fav:pid', checkToken, async(req,res) => {
   )
   if (userData) {
     await db.execute(
-      'DELETE FROM `collect` WHERE `id` = ? AND `user_id` = ?', [pid,id]
+      'DELETE FROM `collect` WHERE `id` = ? AND `user_id` = ?', [pid, id]
     )
     res.status(200).json({ status: 'success', msg: '取消收藏成功' })
   } else {

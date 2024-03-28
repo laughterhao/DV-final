@@ -3,7 +3,6 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-import LessonData from '@/data/lesson/lesson'
 import Style from '@/styles/lessonStyle/lesson.module.scss'
 
 import { FaLocationDot } from 'react-icons/fa6'
@@ -11,10 +10,8 @@ export default function BsCard() {
   const [lesson, setLesson] = useState([])
   const getlessonList = async () => {
     const res = await fetch('http://localhost:3005/api/lesson/getlist')
-
     const data = await res.json()
     setLesson(data)
-    console.log(lesson)
   }
   useEffect(() => {
     getlessonList()
@@ -23,11 +20,15 @@ export default function BsCard() {
     <>
       {lesson.map((item, i) => (
         <Col key={i} xs={6} md={6}>
-          <Card className="mx-auto mb-2">
-            <Card.Img
-              variant="top"
-              src="https://images.pexels.com/photos/19733182/pexels-photo-19733182.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            />
+          <Card className="mx-auto mb-2 ">
+            <div className="ratio ratio-4x3 h-100">
+              <Card.Img
+                variant="top"
+                src={`/images/lesson/${item.img.split(',')[0] + '.jpg'}`}
+                alt="description"
+              />
+            </div>
+
             <Card.Body className="d-flex flex-column">
               <Row>
                 <Col xs="8">
@@ -42,7 +43,9 @@ export default function BsCard() {
               <Card.Text className={`${Style['text-area']} fs-6 `}>
                 {item.content}
               </Card.Text>
-              <Button variant="primary">立即預約</Button>
+              <Button variant="primary" onClick={() => {}}>
+                立即預約
+              </Button>
             </Card.Body>
           </Card>
         </Col>

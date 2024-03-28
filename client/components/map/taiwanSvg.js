@@ -1,4 +1,4 @@
-import styles from '@/pages/map/svg.module.scss'
+import styles from '@/pages/map/map.module.scss'
 
 function TaiwanSvg({ handleMapClick, pointStyle }) {
   return (

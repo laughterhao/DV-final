@@ -6,13 +6,10 @@ import { FaHeart } from 'react-icons/fa'
 import { GiRoundStar } from 'react-icons/gi'
 import Style from '@/styles/lessonStyle/star.module.css'
 import derailTopStyle from '@/styles/lessonStyle/detailTop.module.scss'
-
 import { useAuth } from '@/hooks/auth'
-import { auth } from '@/config/firebase'
-import { FaV } from 'react-icons/fa6'
-
 
 export default function DetailTop({ selectData }) {
+  const [slider, setSlider] = useState({})
   const { auth } = useAuth()
   // 取得uesr 狀態
   const userState = auth.id
@@ -33,11 +30,29 @@ export default function DetailTop({ selectData }) {
         body: JSON.stringify({ fav: newFav }),
       })
         .then((response) => response.json())
-        .then((data) => console.log(data))
+        .then((data) => {
+          console.log(data.state)
+          if (data.state === 0) {
+            console.log(newFav)
+            // 如果資料不存在，進行新增的動作
+            return fetch(`${api}/getfav/${pid}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                userState: userState,
+              }),
+            })
+          } else {
+            // 如果資料存在，直接設定 state
+            setFav(data)
+          }
+        })
         .catch((error) => {
           console.error('Error:', error)
         })
-      console.log(fav)
+      console.log(newFav)
       return newFav
     })
   }
@@ -116,13 +131,15 @@ export default function DetailTop({ selectData }) {
     }
     console.log()
   }, [router.isReady, pid, fav])
+  useEffect(() => {
+    setSlider(pid)
+  }, [pid])
   return (
     <>
       <Row>
         <Col lg={7}>
           <figure className="">
-            <ImgSlider></ImgSlider>
-            {/* <SliderTest></SliderTest> */}
+            <ImgSlider getSliderID={slider}></ImgSlider>
           </figure>
         </Col>
         <Col lg={5}>

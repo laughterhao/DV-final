@@ -24,6 +24,7 @@ export default function CancelAlert({
       cancelButtonColor: `${cancelButtonColor}`,
       confirmButtonText: '確定',
       cancelButtonText: '取消',
+
       customClass: {
         confirmButton: 'confirm-button-class',
         title: 'title-class',

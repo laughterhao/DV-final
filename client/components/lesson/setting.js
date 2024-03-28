@@ -13,6 +13,7 @@ const settings = {
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
+  autoplay: true,
   dotsClass: 'slick-dots slick-thumb',
   customPaging: (i) => {
     return (

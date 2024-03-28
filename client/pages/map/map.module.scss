@@ -17,7 +17,7 @@
     #908fd0a4
   );
   background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
+  animation: gradient 12s ease infinite;
   padding: 5px;
   border-radius: 1%;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2),
@@ -137,6 +137,7 @@
   background-color: rgba(198, 199, 203, 0.156);
   font-size: 20px;
   padding: 1rem;
+  border-radius: 5%;
 
   .weather-detail {
     display: flex;

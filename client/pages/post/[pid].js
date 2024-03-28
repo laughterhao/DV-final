@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import TagButton from '@/components/post/tagButton'
-import { Container, Card, Col, Row } from 'react-bootstrap'
+import { Container, Card, Col } from 'react-bootstrap'
 import DOMPurify from 'dompurify'
 import postStyle from '@/components/post/post-pid.module.scss'
 import BackButton from '@/components/post/backButton'
@@ -67,84 +67,81 @@ export default function Detail() {
 
   const display = (
     <>
-      <div className={postStyle['main']}>
-        <div className={postStyle['right']}>
-          <div className={postStyle['ocean']}>
-            <div
-              className={`${postStyle['bubble']} ${postStyle['bubble--1']}`}
-            ></div>
-            <div
-              className={`${postStyle['bubble']} ${postStyle['bubble--2']}`}
-            ></div>
-            <div
-              className={`${postStyle['bubble']} ${postStyle['bubble--3']}`}
-            ></div>
-            <div
-              className={`${postStyle['bubble']} ${postStyle['bubble--4']}`}
-            ></div>
-            <div
-              className={`${postStyle['bubble']} ${postStyle['bubble--5']}`}
-            ></div>
-            <div
-              className={`${postStyle['bubble']} ${postStyle['bubble--6']}`}
-            ></div>
-            <div
-              className={`${postStyle['bubble']} ${postStyle['bubble--7']}`}
-            ></div>
-            <div
-              className={`${postStyle['bubble']} ${postStyle['bubble--8']}`}
-            ></div>
-            <div
-              className={`${postStyle['bubble']} ${postStyle['bubble--9']}`}
-            ></div>
-            <div
-              className={`${postStyle['bubble']} ${postStyle['bubble--10']}`}
-            ></div>
-            <div
-              className={`${postStyle['bubble']} ${postStyle['bubble--11']}`}
-            ></div>
-            <div
-              className={`${postStyle['bubble']} ${postStyle['bubble--12']}`}
-            ></div>
-            <div id={postStyle['octocat']}></div>
-          </div>
-        </div>
-
-        <Container className="pt-3">
-          <div className={'btn-back'}>
+      <div className="my-3">
+        <Container className={`${postStyle['centered']} `}>
+          <div className="my-3">
             <Link href="/post">
               <BackButton />
             </Link>
           </div>
-          <Col xs={10} className="bg-light p-4">
-            <p>{post.published}</p>
-            <h3>{post.title}</h3>
-            作者：{post.name}
-            <div className="my-2">
-              {' '}
-              {getTagsArray(post.tags).map((tag, index) => (
-                <Link key={index} href={`/post/tagPost/${tag}`} target="_blank">
-                  <TagButton text={`# ${tag}`} />
-                </Link>
-              ))}
-            </div>
-            <Card.Img
-              variant="top"
-              // src={`/images/post/${post.image}`}
-              src={`http://localhost:3005/upload/${post.image}`}
-            />
-            <div
-              className="m-4"
-              // dangerouslySetInnerHTML={{
-              //   __html: DOMPurify.sanitize(post.content),
-              // }}
-              dangerouslySetInnerHTML={{
-                __html: post.content,
-              }}
-            ></div>
-          </Col>
+          <div className={`${postStyle['article']}`}>
+            <Col className={`bg-light p-4 border rounded`}>
+              <p>{post.published}</p>
+              <h3>{post.title}</h3>
+              作者：{post.name}
+              <div className="my-2">
+                {' '}
+                {getTagsArray(post.tags).map((tag, index) => (
+                  <Link key={index} href={`/post/tagPost/${tag}`}>
+                    <TagButton text={`# ${tag}`} />
+                  </Link>
+                ))}
+              </div>
+              <Card.Img
+                variant="top"
+                // src={`/images/post/${post.image}`}
+                src={`http://localhost:3005/upload/${post.image}`}
+              />
+              <div
+                className="m-4"
+                // dangerouslySetInnerHTML={{
+                //   __html: DOMPurify.sanitize(post.content),
+                // }}
+                dangerouslySetInnerHTML={{
+                  __html: post.content,
+                }}
+              ></div>
+            </Col>
+          </div>
         </Container>
+        <div
+          className={`${postStyle['bubble']} ${postStyle['bubble--1']}`}
+        ></div>
+        <div
+          className={`${postStyle['bubble']} ${postStyle['bubble--2']}`}
+        ></div>
+        <div
+          className={`${postStyle['bubble']} ${postStyle['bubble--3']}`}
+        ></div>
+        <div
+          className={`${postStyle['bubble']} ${postStyle['bubble--4']}`}
+        ></div>
+        <div
+          className={`${postStyle['bubble']} ${postStyle['bubble--5']}`}
+        ></div>
+        <div
+          className={`${postStyle['bubble']} ${postStyle['bubble--6']}`}
+        ></div>
+        <div
+          className={`${postStyle['bubble']} ${postStyle['bubble--7']}`}
+        ></div>
+        <div
+          className={`${postStyle['bubble']} ${postStyle['bubble--8']}`}
+        ></div>
+        <div
+          className={`${postStyle['bubble']} ${postStyle['bubble--9']}`}
+        ></div>
+        <div
+          className={`${postStyle['bubble']} ${postStyle['bubble--10']}`}
+        ></div>
+        <div
+          className={`${postStyle['bubble']} ${postStyle['bubble--11']}`}
+        ></div>
+        <div
+          className={`${postStyle['bubble']} ${postStyle['bubble--12']}`}
+        ></div>
       </div>
+
       <style jsx>{`
         .btn-back {
           margin: 0 0 30px 0px;

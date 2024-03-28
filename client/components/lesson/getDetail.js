@@ -3,23 +3,39 @@ import Image from 'react-bootstrap/Image'
 import { Row, Col } from 'react-bootstrap'
 
 export default function getDetail({ selectData }) {
+  const obj = selectData
+  console.log(obj.content.split(','))
+  const arrCotent = obj.processDetail.split(',')
+  const arrFeatures = obj.features.split(',')
   return (
     <Row>
       <Col lg={12}>
         <div className="fs-4 fw-bold mb-3">報名須知</div>
-        <p className="fs-5">{selectData.content}</p>
+        <p className="fs-5">{obj.content}</p>
       </Col>
       <Col lg={12}>
         <div className="fs-4 fw-bold mb-3">注意事項</div>
-        <p className="fs-5">{selectData.processDetail}</p>
+        {arrCotent.map((v, i) => {
+          return (
+            <li className="fs-5" key={i}>
+              {v}
+            </li>
+          )
+        })}
       </Col>
       <Col lg={12}>
         <div className="fs-4 fw-bold mb-3">活動流程</div>
-        <p className="fs-5">{selectData.features}</p>
+        {arrFeatures.map((v, i) => {
+          return (
+            <li className="fs-5" key={i}>
+              {v}
+            </li>
+          )
+        })}
       </Col>
       <Col lg={12}>
         <div className="fs-4 fw-bold mb-3">上課地點</div>
-        <p className="fs-5">{selectData.locationDetail}</p>
+        <p className="fs-5">{obj.locationDetail}</p>
       </Col>
       <figure>
         <Image

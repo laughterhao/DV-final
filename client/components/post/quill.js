@@ -14,13 +14,12 @@ export default function Quill({ initialContent, onChange }) {
   const quillModules = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ list: 'ordered' }],
       ['link'],
       [{ align: [] }],
       [{ color: [] }],
       [{ background: [] }],
-      ['code-block'],
       ['clean'],
     ],
   }
