@@ -9,18 +9,30 @@ export default function GetComment({ selectData }) {
   const router = useRouter()
   const [star, setStar] = useState(null)
   const pid = selectData.id
-
+  const api = `http://localhost:3005/api/lesson`
+  console.log(selectData)
   //取得資料庫 star內容
   const getStar = async (pid) => {
-    const res = await fetch(`http://localhost:3005/api/lesson/getstar/${pid}`)
-    const data = await res.json()
-    setStar(data)
+    await fetch(`${api}/getstar/${pid}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        return response.json()
+      })
+      .then((data) => {
+        setStar(data)
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
   }
   useEffect(() => {
-    if (router.isReady && pid) {
-      getStar(pid)
-    }
-  }, [router.isReady, pid])
+    // if (router.isReady && pid) {
+    getStar(pid)
+    // }
+  }, [pid])
+  console.log(star)
   return (
     <>
       <Row>
@@ -43,9 +55,9 @@ export default function GetComment({ selectData }) {
           star.length > 0 &&
           star.map((v, i) => {
             return (
-              <Row key={v.id} className="mt-2">
-                <Col lg={2}>
-                  <figure className="d-flex justify-content-center m-0 ">
+              <Row key={v.id} className="mt-2 p-2 align-items-center gx-0">
+                <Col lg={1}>
+                  <figure className="mb-0 ">
                     <Image
                       className="img-fluid rounded-circle"
                       style={{ height: '100px', width: '100px' }}
@@ -54,22 +66,22 @@ export default function GetComment({ selectData }) {
                     />
                   </figure>
                 </Col>
-
-                <Col lg={10}>
-                  <div>安妮亞</div>
+                <Col lg={8} className="ps-3">
+                  <div>{v.name}</div>
                   {Array(5)
-                    .fill(star.score)
+                    .fill(v.score)
                     .map((v, i) => {
                       return (
                         <button className={Style['star-btn']} key={i}>
                           <GiRoundStar
-                            className={i > v ? Style['on'] : Style['off']}
+                            className={i < v ? Style['on'] : Style['off']}
                           />
                         </button>
                       )
                     })}
                   <div>{v.comment}</div>{' '}
                 </Col>
+                <hr className="mt-3" />
               </Row>
             )
           })}
