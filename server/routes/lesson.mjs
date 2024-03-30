@@ -40,7 +40,7 @@ router.get('/getlist/:id', async function (req, res, next) {
 router.get('/getstar/:id', async function (req, res, next) {
   try{
     const Sid = req.params.id
-    let [star] = await db.execute('SELECT id,score ,comment FROM star WHERE lesson_id = ? ', [Sid])
+    let [star] = await db.execute('SELECT star.id, star.score ,star.comment ,users.name FROM star JOIN users ON star.user_id = users.uid WHERE lesson_id = ? ', [Sid])
     res.json(star)
   }catch (error){
     console.error(error)
@@ -90,7 +90,6 @@ router.post('/postfav/:id', async function (req, res, next) {
 
 //get preoder_date
 router.post('/orderdate', async function (req, res, next) {
-  ;(async () => {
     try {
       const lesson_id = req.body.id
       let [date] = await db.execute(
@@ -102,7 +101,6 @@ router.post('/orderdate', async function (req, res, next) {
       console.error(err)
       res.status(500).send('Server error')
     }
-  })()
 })
 
 router.post('/order-time', async function (req, res, next) {
