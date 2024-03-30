@@ -21,7 +21,7 @@ export default function DetailTop({ selectData }) {
   const userState = auth.id
   const pid = selectData.id
   const api = `http://localhost:3005/api/lesson`
-  //---get fav API
+  //btn change Fav
   const changeFav = async () => {
     if (!auth.id) {
       return router.push('/users/login')
@@ -67,6 +67,7 @@ export default function DetailTop({ selectData }) {
       console.error('Error:', error)
     }
   }
+  //---get fav API
   const getFav = async (pid) => {
     await fetch(`${api}/fav/${pid}?userState=${userState}`)
       .then((response) => {
@@ -91,11 +92,14 @@ export default function DetailTop({ selectData }) {
         }
         return response.json()
       })
-      .then((data) => setStar(data))
+      .then(([data]) => {
+        setStar(data)
+      })
       .catch((error) => {
         console.error('Error:', error)
       })
   }
+  console.log(star)
   // 取課程 星星平均值
   const Starlist = () => {
     if (star) {
@@ -137,11 +141,11 @@ export default function DetailTop({ selectData }) {
   useEffect(() => {
     if (router.isReady && pid) {
       getStar(pid)
+      getFav(pid)
     }
   }, [router.isReady, auth, pid])
   useEffect(() => {
     setSlider(pid)
-    getFav(pid)
   }, [pid])
 
   return (
@@ -196,11 +200,11 @@ export default function DetailTop({ selectData }) {
               className={`d-grid gap-2 col-12 mx-auto mt-4 ${derailTopStyle['phone-mt']}`}
             >
               <button
-                className={`btn ${derailTopStyle['btn-color']} fs-5 `}
+                className={`${derailTopStyle['btn-color']} ${derailTopStyle['btn']}`}
                 type="button"
                 onClick={goToPreOrder}
               >
-                立即預約
+                <div className="fs-5">立即預約</div>
               </button>
             </div>
           </Row>
