@@ -4,7 +4,6 @@ import { Row, Col } from 'react-bootstrap'
 
 export default function getDetail({ selectData }) {
   const obj = selectData
-  console.log(obj.content.split(','))
   const arrCotent = obj.processDetail.split(',')
   const arrFeatures = obj.features.split(',')
   return (

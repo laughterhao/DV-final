@@ -3,6 +3,12 @@
   background: $secondary;
   color: $white;
 }
+.btn {
+  border-radius: 8px;
+  padding: 10px;
+  border: none;
+}
+
 @media (max-width: 768px) {
   .detailbox {
     margin-top: 2rem;
